@@ -1,90 +1,148 @@
-<?php $this->extend('layouts/template') ?>
+<?= $this->extend('layouts/template') ?>
 
-<?php $this->section('title') ?>
-List Pasien
-<?php $this->endSection() ?>
+<?= $this->section('title') ?>
+Rekam Medis
+<?= $this->endSection() ?>
 
-<?php $this->section('content') ?>
-
-<?php foreach ($terapis as $terapi) : ?>
-    <div class="bg-white hover:bg-[#F2F2F7] p-6 rounded-lg shadow-lg mb-5">
-        <div>
-            <h1 class="text-xl font-semibold"><?= $terapi['nama'] ?></h1>
+<?= $this->section('content') ?>
+<form action="/store" method="post">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-transparent border-b-4 border-primary w-1/4">
+            <h2 class="text-primary font-bold text-xl">Status Klinik Pasien</h2>
         </div>
-        <div class="flex justify-between">
-            <p><?= $terapi['j_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></p>
-            <p><?= $terapi['tanggal'] ?></p>
-        </div>
-        <div class="flex justify-between">
-            <p><?= $terapi['alamat'] ?></p>
-            <p><?= $terapi['no_pendaftaran'] ?></p>
-        </div>
-        <div>
-            <p><?= $terapi['username'] ?></p>
-        </div>
-        <div class="text-center">
-            <!-- Tombol untuk membuka modal -->
-            <button class="bg-[#6C69FF] text-white text-lg w-full p-3 rounded-lg" onclick="openModal(<?= $terapi['id'] ?>)">Lihat Selengkapnya</button>
-        </div>
-    </div>
-<?php endforeach ?>
-
-<!-- Modal -->
-<div id="modalDetail" class="fixed inset-0 items-center flex justify-center bg-gray-600 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-        <h2 class="text-2xl font-semibold mb-4">Detail Terapi</h2>
-        <div id="modalContent">
-            <!-- Konten modal akan dimuat di sini -->
-        </div>
-        <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4">Tutup</button>
-    </div>
-</div>
-
-<!-- Script -->
-<script>
-    // Fungsi untuk membuka modal dan memuat data terapi berdasarkan ID
-    function openModal(id) {
-        console.log("id: ", id);
-        // Memuat data terapi menggunakan AJAX atau bisa juga menggunakan fetch API
-        fetch(`/detail/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                // Menampilkan data detail terapi di dalam modal
-                console.log(data)
-                const modalContent = document.getElementById('modalContent');
-                modalContent.innerHTML = `
-                <div class="grid grid-cols-4 gap-2">
-                    <div><strong>Nama Pasien</strong></div>
-                    <div>: ${data.nama}</div>
-
-                    <div><strong>Jenis Kelamin</strong></div>
-                    <div>: ${data.j_kelamin == 'L' ? 'Laki-laki' : 'Perempuan'}</div>
-
-                    <div><strong>Alamat</strong></div>
-                    <div>: ${data.alamat}</div>
-
-                    <div><strong>Nomor Pendaftaran</strong></div>
-                    <div>: ${data.no_pendaftaran}</div>
-
-                    <div><strong>Username</strong></div>
-                    <div>: ${data.username}</div>
-
-                    <div><strong>Tanggal Terapi</strong></div>
-                    <div>: ${data.tanggal}</div>
+        <div class="grid grid-cols-2 gap-4 mt-5">
+            <div>
+                <label for="id_fisioterapis" class="block text-lg font-semibold text-gray-900">Fisioterapis</label>
+                <div class="relative mt-1">
+                    <select name="id_fisioterapis" id="id_fisioterapis" placeholder="Pilih fisioterapis" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                        <?php foreach ($fisioterapis as $fisioterapi): ?>
+                            <option value="<?= $fisioterapi['id'] ?>"><?= $fisioterapi['username'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-                `;
-                // Menampilkan modal
-                document.getElementById('modalDetail').classList.remove('hidden');
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
+            </div>
+            <div>
+                <label for="tanggal" class="block text-lg font-semibold text-gray-900">Tanggal</label>
+                <div class="relative mt-1">
+                    <input type="date" name="tanggal" id="tanggal" placeholder="Pilih tanggal" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+            <div>
+                <label for="no_pendaftaran" class="block text-lg font-semibold text-gray-900">Nomor Pendaftaran</label>
+                <div class="relative mt-1">
+                    <input type="text" name="no_pendaftaran" id="no_pendaftaran" placeholder="Masukkan nomor pendaftaran" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // Fungsi untuk menutup modal
-    function closeModal() {
-        document.getElementById('modalDetail').classList.add('hidden');
-    }
-</script>
+    <div class="bg-white p-6 rounded-lg shadow-lg mt-5 grid grid-cols-2 gap-6 w-full">
+        <?= csrf_field(); ?>
+        <!-- Kolom pertama (kode yang sudah ada) -->
+        <div class="col-span-1">
+            <div class="mt-5">
+                <label for="nama_pasien" class="block text-lg font-semibold text-gray-900">Nama Pasien atau Atlet</label>
+                <div class="relative mt-1">
+                    <input type="text" name="nama_pasien" id="nama_pasien" placeholder="Masukkan nama pasien atau atlet" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
 
-<?php $this->endSection() ?>
+            <div class="mt-5">
+                <label for="j_kelamin" class="block text-lg font-semibold text-gray-900">Jenis Kelamin</label>
+                <div class="relative mt-1">
+                    <select name="j_kelamin" id="j_kelamin" placeholder="Pilih Jenis Kelamin" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                        <option value="" selected>-- Pilih --</option>
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="tgl_lahir" class="block text-lg font-semibold text-gray-900">Tanggal Lahir</label>
+                <div class="relative mt-1">
+                    <input type="date" name="tgl_lahir" id="tgl_lahir" placeholder="Masukkan umur" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="alamat" class="block text-lg font-semibold text-gray-900">Alamat</label>
+                <div class="relative mt-1">
+                    <input type="text" name="alamat" id="alamat" placeholder="Masukkan alamat" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="no_hp" class="block text-lg font-semibold text-gray-900">Nomor HP</label>
+                <div class="relative mt-1">
+                    <input type="text" name="no_hp" id="no_hp" placeholder="Masukkan nomor HP" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="pekerjaan" class="block text-lg font-semibold text-gray-900">Pekerjaan</label>
+                <div class="relative mt-1">
+                    <input type="text" name="pekerjaan" id="pekerjaan" placeholder="Masukkan pekerjaan" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5 flex justify-end">
+                <button id="next" class="bg-primary text-white font-semibold p-3 rounded-lg">Selanjutnya</button>
+                <button id="submit" class="bg-primary text-white font-semibold p-3 rounded-lg">Simpan</button>
+            </div>
+        </div>
+
+        <!-- Kolom kedua (untuk menambahkan elemen lain) -->
+        <div class="col-span-1">
+            <div class="mt-5">
+                <label for="keluhan_utama" class="block text-lg font-semibold text-gray-900">Keluhan Utama</label>
+                <div class="relative mt-1">
+                    <input type="text" name="keluhan_utama" id="keluhan_utama" placeholder="Masukkan keluhan utama" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="riwayat_keluhan" class="block text-lg font-semibold text-gray-900">Riwayat Keluhan</label>
+                <div class="relative mt-1">
+                    <input type="text" name="riwayat_keluhan" id="riwayat_keluhan" placeholder="Masukkan riwayat keluhan" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="pemeriksaan" class="block text-lg font-semibold text-gray-900">Pemeriksaan</label>
+                <div class="relative mt-1">
+                    <input type="text" name="pemeriksaan" id="pemeriksaan" placeholder="Masukkan pemeriksaan" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="treatment" class="block text-lg font-semibold text-gray-900">Treatment</label>
+                <div class="relative mt-1">
+                    <input type="text" name="treatment" id="treatment" placeholder="Masukkan treatment" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="kesimpulan" class="block text-lg font-semibold text-gray-900">Kesimpulan</label>
+                <div class="relative mt-1">
+                    <input type="text" name="kesimpulan" id="kesimpulan" placeholder="Masukkan kesimpulan" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="latihan_rumah" class="block text-lg font-semibold text-gray-900">Latihan Rumah</label>
+                <div class="relative mt-1">
+                    <input type="text" name="latihan_rumah" id="latihan_rumah" placeholder="Masukkan latihan rumah" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <label for="evaluasi" class="block text-lg font-semibold text-gray-900">Evaluasi</label>
+                <div class="relative mt-1">
+                    <input type="text" name="evaluasi" id="evaluasi" placeholder="Masukkan evaluasi" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<?= $this->endSection() ?>

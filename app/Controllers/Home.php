@@ -23,12 +23,20 @@ class Home extends BaseController
 
     public function index()
     {
-        $data = [
-            'title' => 'Dashboard'
-        ];
+        $allTerapi = $this->terapiModel->getAllTerapiWithPasienAndUsers();
 
-        return view('home', $data);
+        // Pastikan $pasiens dikirim sebagai array asosiatif
+        return view('home', ['terapis' => $allTerapi]);
     }
+
+    // public function index()
+    // {
+    //     $data = [
+    //         'title' => 'Dashboard'
+    //     ];
+
+    //     return view('home', $data);
+    // }
 
     public function create()
     {
@@ -95,17 +103,12 @@ class Home extends BaseController
         }
     }
 
-    public function edit()
+    public function createRm()
     {
-        return view('pasiens/edit');
-    }
-
-    public function lists()
-    {
-        $allTerapi = $this->terapiModel->getAllTerapiWithPasienAndUsers();
+        $fisioterapis = $this->terapiModel->getAllFisioterapis();
 
         // Pastikan $pasiens dikirim sebagai array asosiatif
-        return view('pasiens/lists', ['terapis' => $allTerapi]);
+        return view('pasiens/lists', ['fisioterapis' => $fisioterapis]);
     }
 
     public function detail($id)
@@ -150,8 +153,7 @@ class Home extends BaseController
             $user = $users->findById($users->getInsertID());
 
             // Add to default group
-            // $users->addToDefaultGroup($user);
-            $users->addToGroup($user, 'fisioterapis');
+            $users->addToFisioterapisGroup($user);
 
             // Aktifkan user
             $user->activate();

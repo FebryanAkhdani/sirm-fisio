@@ -29,4 +29,14 @@ class TerapiModel extends Model
             ->where('terapi.id', $id)
             ->first();
     }
+
+    public function getAllFisioterapis()
+    {
+        return $this->db->table('auth_groups_users')
+            ->select('users.*')
+            ->join('users', 'auth_groups_users.user_id = users.id')
+            ->where('auth_groups_users.group', 'fisioterapis')
+            ->get()
+            ->getResultArray();
+    }
 }

@@ -33,23 +33,24 @@
                             <span class="ml-3 text-xl font-semibold sidebar-text">Beranda</span>
                         </a>
                     </li>
-                    <li class="pb-2 mt-2">
-                        <a href="/lists" class="hover:bg-hoverSidebar hover:rounded-lg px-2 py-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                            </svg>
-                            <span class="ml-3 text-xl font-semibold sidebar-text">Rekam Medis</span>
-                        </a>
-                    </li>
-                    <li class="pb-2 mt-2">
-                        <a href="/create" class="hover:bg-hoverSidebar hover:rounded-lg px-2 py-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                            </svg>
-                            <!-- Text span that will be hidden when sidebar is collapsed -->
-                            <span class="ml-3 text-xl font-semibold sidebar-text">Tambah Terapis</span>
-                        </a>
-                    </li>
+                    <?php if (auth()->user()->inGroup('admin')): ?>
+                        <li class="pb-2 mt-2">
+                            <a href="/create-rm" class="hover:bg-hoverSidebar hover:rounded-lg px-2 py-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                                <span class="ml-3 text-xl font-semibold sidebar-text">Rekam Medis</span>
+                            </a>
+                        </li>
+                        <li class="pb-2 mt-2">
+                            <a href="/create" class="hover:bg-hoverSidebar hover:rounded-lg px-2 py-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                </svg>
+                                <span class="ml-3 text-xl font-semibold sidebar-text">Tambah Terapis</span>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
 

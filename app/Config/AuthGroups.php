@@ -25,6 +25,10 @@ class AuthGroups extends ShieldAuthGroups
      */
     public string $defaultGroup = 'user';
 
+    public string $adminGroup = 'admin';
+
+    public string $fisioterapisGroup = 'fisioterapis';
+
     /**
      * --------------------------------------------------------------------
      * Groups
