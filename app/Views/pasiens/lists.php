@@ -38,8 +38,8 @@ Rekam Medis
 
     <div class="bg-white p-6 rounded-lg shadow-lg mt-5 grid grid-cols-2 gap-6 w-full">
         <?= csrf_field(); ?>
-        <!-- Kolom pertama (kode yang sudah ada) -->
-        <div class="col-span-1">
+        <!-- Kolom pertama -->
+        <div class="col-span-1" id="first-column">
             <div class="mt-5">
                 <label for="nama_pasien" class="block text-lg font-semibold text-gray-900">Nama Pasien atau Atlet</label>
                 <div class="relative mt-1">
@@ -87,13 +87,13 @@ Rekam Medis
             </div>
 
             <div class="mt-5 flex justify-end">
-                <button id="next" class="bg-primary text-white font-semibold p-3 rounded-lg">Selanjutnya</button>
-                <button id="submit" class="bg-primary text-white font-semibold p-3 rounded-lg">Simpan</button>
+                <button id="next" type="button" class="bg-primary text-white font-semibold p-3 rounded-lg">Selanjutnya</button>
+                <button id="submit" type="submit" class="bg-primary text-white font-semibold p-3 rounded-lg hidden">Simpan</button>
             </div>
         </div>
 
-        <!-- Kolom kedua (untuk menambahkan elemen lain) -->
-        <div class="col-span-1">
+        <!-- Kolom kedua -->
+        <div class="col-span-1 hidden" id="second-column">
             <div class="mt-5">
                 <label for="keluhan_utama" class="block text-lg font-semibold text-gray-900">Keluhan Utama</label>
                 <div class="relative mt-1">
@@ -145,4 +145,51 @@ Rekam Medis
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const nextButton = document.getElementById("next");
+        const submitButton = document.getElementById("submit");
+        const firstColumn = document.getElementById("first-column");
+        const secondColumn = document.getElementById("second-column");
+        const inputsFirstColumn = firstColumn.querySelectorAll("input, select");
+
+        function checkFields() {
+            let allFilled = true;
+            inputsFirstColumn.forEach(function(input) {
+                if (!input.value) {
+                    allFilled = false;
+                }
+            });
+            return allFilled;
+        }
+
+        nextButton.addEventListener("click", function() {
+            if (checkFields()) {
+                secondColumn.classList.remove("hidden");
+                secondColumn.classList.add("animate-slide-in-from-left");
+                nextButton.classList.add("hidden");
+                submitButton.classList.remove("hidden");
+            } else {
+                alert("Harap isi semua field sebelum melanjutkan.");
+            }
+        });
+    });
+</script>
+
+<style>
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    .animate-slide-in-from-left {
+        animation: slideInFromLeft 0.5s ease-out forwards;
+    }
+</style>
 <?= $this->endSection() ?>
