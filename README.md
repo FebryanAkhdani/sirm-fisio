@@ -66,3 +66,18 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - json (enabled by default - don't turn it off)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+
+How To Install
+- Clone this repository
+- Install latest Composer
+- Install latest Node JS
+- Configure the path of Composer, Node JS, and PHP version in Windows Edit Environtment settings
+- Install NPM
+- Copy this command in folder terminal `composer require codeigniter4/shield`. If you got error, visit this page for the complete guide of CI 4 Shield installation https://shield.codeigniter.com/getting_started/install/
+- `php spark shield:setup`
+- `php spark migrate --all`
+- Create database named 'rm'
+- Import the rm.sql file to database rm
+- Open terminal, write `php spark db:seed UserSeeder` to create Admin User
+- Admin email is `admin@email.com`, with password `123456789ccd`
+- Finish
