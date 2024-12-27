@@ -10,27 +10,21 @@ Rekam Medis
         <div class="bg-transparent border-b-4 border-primary w-1/4">
             <h2 class="text-primary font-bold text-xl">Status Klinik Pasien</h2>
         </div>
-        <div class="grid grid-cols-2 gap-4 mt-5">
-            <div>
+        <div class="mt-5">
+            <div class="mt-5">
                 <label for="id_fisioterapis" class="block text-lg font-semibold text-gray-900">Fisioterapis</label>
                 <div class="relative mt-1">
-                    <select name="id_fisioterapis" id="id_fisioterapis" placeholder="Pilih fisioterapis" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                    <select name="id_fisioterapis" id="id_fisioterapis" placeholder="Pilih fisioterapis" class="block w-1/2 px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
                         <?php foreach ($fisioterapis as $fisioterapi): ?>
                             <option value="<?= $fisioterapi['id'] ?>"><?= $fisioterapi['username'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
             </div>
-            <div>
+            <div class="mt-5">
                 <label for="tanggal" class="block text-lg font-semibold text-gray-900">Tanggal</label>
                 <div class="relative mt-1">
-                    <input type="date" name="tanggal" id="tanggal" placeholder="Pilih tanggal" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
-                </div>
-            </div>
-            <div>
-                <label for="no_pendaftaran" class="block text-lg font-semibold text-gray-900">Nomor Pendaftaran</label>
-                <div class="relative mt-1">
-                    <input type="text" name="no_pendaftaran" id="no_pendaftaran" placeholder="Masukkan nomor pendaftaran" class="block w-full px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
+                    <input type="date" name="tanggal" id="tanggal" placeholder="Pilih tanggal" class="block w-1/2 px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
                 </div>
             </div>
         </div>

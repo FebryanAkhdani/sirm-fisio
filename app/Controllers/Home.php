@@ -57,12 +57,12 @@ class Home extends BaseController
             ];
 
             // Format tanggal lahir pasien
-            $pasien['tgl_lahir'] = Carbon::now()->format('Y-m-d H:i:s.u');
+            $pasien['tgl_lahir'] = Carbon::now()->format('Y-m-d');
 
             // Cek apakah pasien sudah ada
             $pasienExist = $this->pasiensModel
                 ->where('nama', $pasien['nama'])
-                ->where('tgl_lahir', $pasien['tgl_lahir'])
+                ->where("tgl_lahir", $pasien['tgl_lahir'])
                 ->first();
 
             // Jika pasien tidak ada, lakukan insert
@@ -74,11 +74,20 @@ class Home extends BaseController
                 $idPasien = $pasienExist['id'];
             }
 
+            $getLatestTerapi = $this->terapiModel->getLatestTherapy();
+            $noPendaftaran = 0;
+
+            if ($getLatestTerapi == null) {
+                $noPendaftaran = 1;
+            } else {
+                $noPendaftaran = $getLatestTerapi['no_pendaftaran'] + 1;
+            }
+
             // Data terapi yang akan diinputkan
             $terapi = [
-                'no_pendaftaran' => $this->request->getPost('no_pendaftaran'),
+                'no_pendaftaran' => $noPendaftaran,
                 'id_pasien' => $idPasien,
-                'id_fisioterapis' => 1, // Contoh ID fisioterapis
+                'id_fisioterapis' => $this->request->getPost('id_fisioterapis'),
                 'tanggal' => $this->request->getPost('tanggal'),
                 'keluhan_utama' => $this->request->getPost('keluhan_utama'),
                 'riwayat_keluhan' => $this->request->getPost('riwayat_keluhan'),
@@ -108,7 +117,7 @@ class Home extends BaseController
         $fisioterapis = $this->terapiModel->getAllFisioterapis();
 
         // Pastikan $pasiens dikirim sebagai array asosiatif
-        return view('pasiens/lists', ['fisioterapis' => $fisioterapis]);
+        return view('pasiens/create_rm', ['fisioterapis' => $fisioterapis]);
     }
 
     public function detail($id)

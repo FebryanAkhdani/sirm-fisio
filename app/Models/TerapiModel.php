@@ -39,4 +39,13 @@ class TerapiModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getLatestTherapy()
+    {
+        $currentDate = date('Y-m-d');
+        return $this->select('no_pendaftaran')
+            ->where("DATE(tanggal)", $currentDate)
+            ->orderBy('no_pendaftaran', 'DESC')
+            ->first();
+    }
 }
