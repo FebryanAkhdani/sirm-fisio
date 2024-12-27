@@ -78,4 +78,6 @@ How To Install
 - `php spark migrate --all`
 - Create database named 'rm'
 - Import the rm.sql file to database rm
+- Open terminal, write `php spark db:seed UserSeeder` to create Admin User
+- Admin email is `admin@email.com`, with password `123456789ccd`
 - Finish
