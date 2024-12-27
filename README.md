@@ -77,7 +77,9 @@ How To Install
 - `php spark shield:setup`
 - `php spark migrate --all`
 - Create database named 'rm'
-- Import the rm.sql file to database rm
+- Configure .env for the database connection
+- Create table named pasien, then import `pasien.sql` in Database folder
+- Create table named terapi, then import `terapi.sql` in Database folder
 - Open terminal, write `php spark db:seed UserSeeder` to create Admin User
 - Admin email is `admin@email.com`, with password `123456789ccd`
 - Finish
