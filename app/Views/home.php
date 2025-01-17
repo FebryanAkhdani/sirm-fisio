@@ -29,7 +29,7 @@ List Pasien
             <div>
                 <p><?= $terapi['username'] ?></p>
             </div>
-            <div class="text-center">
+            <div class="text-center mt-2">
                 <!-- Tombol untuk membuka modal -->
                 <button class="bg-[#6C69FF] text-white text-lg w-full p-3 rounded-lg" onclick="openModal(<?= $terapi['id'] ?>)">Lihat Selengkapnya</button>
             </div>
@@ -39,12 +39,27 @@ List Pasien
 
 <!-- Modal -->
 <div id="modalDetail" class="fixed inset-0 items-center flex justify-center bg-gray-600 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
-        <h2 class="text-2xl font-semibold mb-4">Detail Terapi</h2>
-        <div id="modalContent">
-            <!-- Konten modal akan dimuat di sini -->
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg relative">
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none" onclick="closeModal()">
+                &times;
+            </button>
+            
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-blue-600">SIRM Fisio</h1>
+                <p class="text-gray-600">Sistem Informasi Rekam Medis Praktik Mandiri Fisioterapi</p>
+            </div>
+            
+            <div class="overlay-auto">
+                <div id="identitasPasien">
+                    <!-- Konten modal akan dimuat di sini -->
+                </div>
+                
+                <div id="keluhan">
+                    <!-- Konten modal akan dimuat di sini -->
+                </div>
+            </div>
         </div>
-        <button onclick="closeModal()" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-4">Tutup</button>
     </div>
 </div>
 
@@ -57,28 +72,78 @@ List Pasien
         fetch(`/detail/${id}`)
             .then(response => response.json())
             .then(data => {
+                // Function untuk mendapatkan usia berdasarkan tanggal lahir
+                let birthDate = new Date(data.tgl_lahir);
+                let today = new Date();
+                let usia = today.getFullYear() - birthDate.getFullYear();
+                let monthDiff = today.getMonth() - birthDate.getMonth();
+
+                // Jika bulan saat ini lebih kecil dari bulan lahir atau bulan sama tapi hari lebih kecil, usia dikurangi 1
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    usia--;
+                }
                 // Menampilkan data detail terapi di dalam modal
-                console.log(data)
-                const modalContent = document.getElementById('modalContent');
-                modalContent.innerHTML = `
-                <div class="grid grid-cols-4 gap-2">
-                    <div><strong>Nama Pasien</strong></div>
-                    <div>: ${data.nama}</div>
+                // console.log(data)
+                const identitasPasien = document.getElementById('identitasPasien');
+                identitasPasien.innerHTML = `
+                <div class="text-center text-xl font-bold mb-3">
+                    Identitas Pasien
+                </div>
 
-                    <div><strong>Jenis Kelamin</strong></div>
-                    <div>: ${data.j_kelamin == 'L' ? 'Laki-laki' : 'Perempuan'}</div>
+                <div class="grid grid-cols-2 gap-4 text-sm text-gray-800">
+                    <div class="">Nama</div>
+                    <div class="font-semibold text-end"> ${data.nama}</div>
+                    
+                    <div class="">No Pendaftaran</div>
+                    <div class="font-semibold text-end"> ${data.no_pendaftaran}</div>
+                    
+                    <div class="">Jenis Kelamin</div>
+                    <div class="font-semibold text-end"> ${data.j_kelamin == 'L' ? 'Laki-laki' : 'Perempuan'}</div>
+                    
+                    <div class="">Alamat</div>
+                    <div class="font-semibold text-end"> ${data.alamat}</div>
+                    
+                    <div class="">Fisioterapis</div>
+                    <div class="font-semibold text-end"> ${data.username}</div>
+                    
+                    <div class="">Nomor HP</div>
+                    <div class="font-semibold text-end"> ${data.no_hp}</div>
+                    
+                    <div class="">Tanggal Lahir/Usia</div>
+                    <div class="font-semibold text-end"> ${data.tgl_lahir.split(" ")[0]} / ${usia}</div>
+                    
+                    <div class="">Pekerjaan</div>
+                    <div class="font-semibold text-end"> ${data.pekerjaan}</div>
+                </div>
+                `;
 
-                    <div><strong>Alamat</strong></div>
-                    <div>: ${data.alamat}</div>
+                const keluhan = document.getElementById('keluhan');
+                keluhan.innerHTML = `
+                <div class="text-center text-xl font-bold my-3">
+                    Keluhan
+                </div>
 
-                    <div><strong>Nomor Pendaftaran</strong></div>
-                    <div>: ${data.no_pendaftaran}</div>
+                <div class="grid grid-cols-2 gap-4 text-sm text-gray-800">
+                    <div class="">Keluhan Utama</div>
+                    <div class="font-semibold text-end"> ${data.keluhan_utama}</div>
 
-                    <div><strong>Username</strong></div>
-                    <div>: ${data.username}</div>
+                    <div class="">Riwayat Utama</div>
+                    <div class="font-semibold text-end"> ${data.riwayat_utama}</div>
 
-                    <div><strong>Tanggal Terapi</strong></div>
-                    <div>: ${data.tanggal}</div>
+                    <div class="">Pemeriksaan</div>
+                    <div class="font-semibold text-end"> ${data.pemeriksaan}</div>
+
+                    <div class="">Treatment</div>
+                    <div class="font-semibold text-end"> ${data.treatment}</div>
+
+                    <div class="">Kesimpulan</div>
+                    <div class="font-semibold text-end"> ${data.kesimpulan}</div>
+
+                    <div class="">Latihan Rumah</div>
+                    <div class="font-semibold text-end"> ${data.latihan_rumah}</div>
+
+                    <div class="">Evaulasi</div>
+                    <div class="font-semibold text-end"> ${data.evaluasi}</div>
                 </div>
                 `;
                 // Menampilkan modal

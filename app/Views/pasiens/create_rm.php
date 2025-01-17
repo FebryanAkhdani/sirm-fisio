@@ -22,7 +22,7 @@ Rekam Medis
                 </div>
             </div>
             <div class="mt-5">
-                <label for="tanggal" class="block text-lg font-semibold text-gray-900">Tanggal</label>
+                <label for="tanggal" class="block text-lg font-semibold text-gray-900">Tanggal Periksa</label>
                 <div class="relative mt-1">
                     <input type="date" name="tanggal" id="tanggal" placeholder="Pilih tanggal" class="block w-1/2 px-2 py-2 text-gray-500 placeholder-gray-400 bg-transparent border-b border-gray-400 focus:outline-none focus:border-black transition duration-200">
                 </div>
