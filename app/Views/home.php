@@ -40,7 +40,7 @@ List Pasien
 <!-- Modal -->
 <div id="modalDetail" class="fixed inset-0 items-center flex justify-center bg-gray-600 bg-opacity-50 hidden">
     <div class="fixed inset-0 flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg relative">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg relative max-h-[500px] overflow-y-auto">
             <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none" onclick="closeModal()">
                 &times;
             </button>
